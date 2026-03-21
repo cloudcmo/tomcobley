@@ -275,26 +275,27 @@
 
     .whatsapp-inner {
       display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 4rem;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .whatsapp-btn {
+      display: inline-flex;
       align-items: center;
+      gap: 0.75rem;
+      background: #25D366;
+      color: white;
+      text-decoration: none;
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 1rem 1.8rem;
+      border-radius: 50px;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.35);
     }
-
-    @media (max-width: 680px) {
-      .whatsapp-inner { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
-      .qr-wrap { margin: 0 auto; }
-    }
-
-    .qr-wrap {
-      background: white;
-      display: inline-block;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(26,32,48,0.1);
-      border: 1px solid var(--panel);
-    }
-
-    .qr-wrap img { width: 160px; height: 160px; display: block; object-fit: contain; }
+    .whatsapp-btn:hover { background: #1db954; transform: translateY(-2px); }
+    .whatsapp-btn svg { width: 26px; height: 26px; flex-shrink: 0; }
     .whatsapp-text p { color: var(--muted); font-size: 0.95rem; margin-top: 0.8rem; max-width: 400px; }
 
     /* PUB QUIZ DAILY */
@@ -319,6 +320,48 @@
       transition: background 0.2s, color 0.2s;
     }
     .btn:hover { background: var(--gold-light); }
+
+    /* GET THERE */
+    .getthere-section { background: var(--white); }
+
+    .getthere-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    @media (max-width: 680px) {
+      .getthere-inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .getthere-address {
+      font-size: 1.05rem;
+      color: var(--ink);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .getthere-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .getthere-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--blue-mid);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      transition: color 0.2s;
+    }
+    .getthere-link:hover { color: var(--gold); }
+
+    .getthere-map iframe { box-shadow: 0 4px 20px rgba(26,32,48,0.1); }
 
     /* FOOTER */
     footer { background: var(--ink); padding: 2.2rem 2rem; text-align: center; }
@@ -448,14 +491,19 @@
   <section class="whatsapp-section">
     <div class="container">
       <div class="whatsapp-inner">
-        <div class="qr-wrap">
-          <img src="whatsapp-qr.png" alt="Scan to join the Tom Cobley Pub Quiz WhatsApp group">
-        </div>
         <div class="whatsapp-text">
           <div class="gold-rule"></div>
           <p class="section-label">Stay in the loop</p>
           <h2 class="section-title">Never miss a date change again</h2>
-          <p>Scan the QR code with your WhatsApp camera to join our group. We'll let you know about any changes, cancellations, or special events — nothing else, we promise.</p>
+          <p>Join our WhatsApp group for updates on any date changes, cancellations, or special events — nothing else, we promise.</p>
+          <div style="margin-top: 1.5rem;">
+            <a href="https://chat.whatsapp.com/L1RIVTpPogj4YCgJP1qX09?mode=gi_t" target="_blank" rel="noopener" class="whatsapp-btn">
+              <svg viewBox="0 0 32 32" fill="white" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 1C7.716 1 1 7.716 1 16c0 2.628.672 5.1 1.848 7.256L1 31l7.94-1.82A14.93 14.93 0 0016 31c8.284 0 15-6.716 15-15S24.284 1 16 1zm0 27.4a12.33 12.33 0 01-6.3-1.728l-.452-.268-4.712 1.08 1.1-4.584-.296-.472A12.36 12.36 0 013.6 16C3.6 9.148 9.148 3.6 16 3.6S28.4 9.148 28.4 16 22.852 28.4 16 28.4zm6.772-9.248c-.372-.188-2.196-1.084-2.536-1.208-.34-.12-.588-.18-.836.184-.248.36-.96 1.208-1.176 1.456-.216.248-.432.276-.804.092-.372-.184-1.572-.58-2.996-1.848-1.108-.988-1.856-2.208-2.072-2.58-.216-.372-.024-.572.162-.756.168-.164.372-.432.556-.648.184-.216.244-.372.368-.62.12-.248.06-.464-.032-.648-.092-.184-.836-2.016-1.144-2.76-.3-.724-.608-.624-.836-.636l-.712-.012c-.248 0-.648.092-.988.464-.34.372-1.296 1.268-1.296 3.092s1.328 3.584 1.512 3.832c.184.248 2.612 3.988 6.328 5.592.884.38 1.572.608 2.108.78.884.28 1.692.24 2.328.144.712-.108 2.196-.896 2.508-1.76.308-.868.308-1.612.216-1.768-.092-.156-.34-.248-.712-.432z"/>
+              </svg>
+              Join the WhatsApp group
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -468,6 +516,46 @@
       <h2 class="section-title">Try Pub Quiz Daily</h2>
       <p>A new question every day — perfect over breakfast or any time the mood strikes. Full of questions probably asked at the Tom Cobley three years ago... but you'll have forgotten them by now.</p>
       <a href="https://pubquizdaily.com" target="_blank" rel="noopener" class="btn">Visit pubquizdaily.com</a>
+    </div>
+  </section>
+
+  <!-- GET THERE -->
+  <section class="getthere-section">
+    <div class="container">
+      <div class="getthere-inner">
+        <div class="getthere-text">
+          <div class="gold-rule"></div>
+          <p class="section-label">Find us</p>
+          <h2 class="section-title">How to get there</h2>
+          <p class="getthere-address">
+            The Tom Cobley Tavern<br>
+            Spreyton, Crediton<br>
+            EX17 5AP
+          </p>
+          <div class="getthere-links">
+            <a href="https://maps.app.goo.gl/DEP4cKb9gaRvUMRE6" target="_blank" rel="noopener" class="getthere-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Get directions
+            </a>
+            <a href="http://www.tomcobleytavern.co.uk/" target="_blank" rel="noopener" class="getthere-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+              Visit the pub website
+            </a>
+          </div>
+        </div>
+        <div class="getthere-map">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2524.5!2d-3.83970!3d50.77860!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x486d4f6e2e2e2e2f%3A0x5052a7b2f7a3f2a0!2sTom+Cobley+Tavern!5e0!3m2!1sen!2suk!4v1711000000000!5m2!1sen!2suk"
+            width="100%"
+            height="280"
+            style="border:0; border-radius:6px; display:block;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Tom Cobley Tavern location">
+          </iframe>
+        </div>
+      </div>
     </div>
   </section>
 
