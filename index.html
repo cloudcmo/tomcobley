@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -172,11 +171,35 @@
       margin-top: 2.2rem;
       opacity: 0;
       animation: fadeUp 0.8s ease 1.2s both;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
     }
 
-    .hero-book p { color: rgba(255,255,255,0.55); font-size: 0.92rem; }
-    .hero-book a { color: var(--gold-light); text-decoration: none; font-weight: 600; }
-    .hero-book a:hover { text-decoration: underline; }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--gold);
+      color: var(--dark-panel);
+      text-decoration: none;
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 0.9rem 2rem;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 4px 20px rgba(212,144,10,0.4);
+    }
+    .hero-cta:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    .hero-book-sub {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.02em;
+    }
 
     /* SECTIONS */
     section { padding: 5rem 2rem; }
@@ -202,9 +225,35 @@
       letter-spacing: 0.01em;
     }
 
-    .gold-rule { width: 44px; height: 2px; background: var(--gold); margin-bottom: 1.1rem; }
+    .dates-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 0;
+    }
 
-    /* POSTER + DETAILS */
+    .cal-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(212,144,10,0.4);
+      color: var(--gold-light);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 0.55rem 1.1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      font-family: 'Barlow', sans-serif;
+    }
+    .cal-btn:hover { background: rgba(212,144,10,0.15); border-color: var(--gold-light); }
+
+    .gold-rule { width: 44px; height: 2px; background: var(--gold); margin-bottom: 1.1rem; }
     .poster-section { background: var(--white); }
 
     .poster-inner {
@@ -414,7 +463,11 @@
     </div>
 
     <div class="hero-book">
-      <p>Book your table directly with the pub: <a href="tel:01647231314">01647 231314</a></p>
+      <a href="tel:01647231314" class="hero-cta">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+        Book your table — call 01647 231314
+      </a>
+      <p class="hero-book-sub">Speak directly to the pub to reserve your spot</p>
     </div>
   </section>
 
@@ -467,24 +520,17 @@
   <!-- DATES -->
   <section class="dates-section">
     <div class="container">
-      <p class="section-label">Monthly on a Tuesday</p>
-      <h2 class="section-title">Upcoming dates</h2>
-      <div class="dates-grid">
-        <div class="date-card next">
-          <div class="date-month">Mar</div>
-          <div class="date-day">24</div>
-          <div class="date-next-badge">Next up</div>
+      <div class="dates-header">
+        <div>
+          <p class="section-label">Monthly on a Tuesday</p>
+          <h2 class="section-title">Upcoming dates</h2>
         </div>
-        <div class="date-card"><div class="date-month">Apr</div><div class="date-day">21</div></div>
-        <div class="date-card"><div class="date-month">May</div><div class="date-day">19</div></div>
-        <div class="date-card"><div class="date-month">Jun</div><div class="date-day">23</div></div>
-        <div class="date-card"><div class="date-month">Jul</div><div class="date-day">21</div></div>
-        <div class="date-card"><div class="date-month">Aug</div><div class="date-day">25</div></div>
-        <div class="date-card"><div class="date-month">Sep</div><div class="date-day">22</div></div>
-        <div class="date-card"><div class="date-month">Oct</div><div class="date-day">20</div></div>
-        <div class="date-card"><div class="date-month">Nov</div><div class="date-day">17</div></div>
-        <div class="date-card"><div class="date-month">Dec</div><div class="date-day">22</div></div>
+        <button class="cal-btn" onclick="downloadICS()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Add all dates to calendar
+        </button>
       </div>
+      <div class="dates-grid" id="dates-grid"></div>
     </div>
   </section>
 
@@ -562,16 +608,50 @@
   </footer>
 
   <script>
-    const target = new Date('2026-03-24T19:15:00');
+    // All quiz dates at 19:15 local time
+    const allDates = [
+      new Date('2026-03-24T19:15:00'),
+      new Date('2026-04-21T19:15:00'),
+      new Date('2026-05-19T19:15:00'),
+      new Date('2026-06-23T19:15:00'),
+      new Date('2026-07-21T19:15:00'),
+      new Date('2026-08-25T19:15:00'),
+      new Date('2026-09-22T19:15:00'),
+      new Date('2026-10-20T19:15:00'),
+      new Date('2026-11-17T19:15:00'),
+      new Date('2026-12-22T19:15:00'),
+    ];
+
+    const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    function getUpcomingDates() {
+      const now = new Date();
+      return allDates.filter(d => d > now);
+    }
+
+    function renderDates() {
+      const upcoming = getUpcomingDates();
+      const grid = document.getElementById('dates-grid');
+      if (!upcoming.length) { grid.innerHTML = '<p style="color:rgba(255,255,255,0.4)">No more dates this year — check back soon!</p>'; return; }
+      grid.innerHTML = upcoming.map((d, i) => `
+        <div class="date-card ${i === 0 ? 'next' : ''}">
+          <div class="date-month">${monthNames[d.getMonth()]}</div>
+          <div class="date-day">${d.getDate()}</div>
+          ${i === 0 ? '<div class="date-next-badge">Next up</div>' : ''}
+        </div>
+      `).join('');
+    }
 
     function updateCountdown() {
+      const upcoming = getUpcomingDates();
+      if (!upcoming.length) return;
+      const target = upcoming[0];
       const now = new Date();
       const diff = target - now;
 
       if (diff <= 0) {
-        document.getElementById('days').textContent = '00';
-        document.getElementById('hours').textContent = '00';
-        document.getElementById('minutes').textContent = '00';
+        renderDates(); // re-render to drop expired date
+        updateCountdown(); // recalculate with next date
         return;
       }
 
@@ -584,8 +664,34 @@
       document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
     }
 
+    function downloadICS() {
+      const upcoming = getUpcomingDates();
+      const lines = ['BEGIN:VCALENDAR','VERSION:2.0','CALSCALE:GREGORIAN','PRODID:-//Tom Cobley Pub Quiz//EN'];
+      upcoming.forEach(d => {
+        const pad = n => String(n).padStart(2,'0');
+        const dt = `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T191500`;
+        const dtEnd = `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T214500`;
+        lines.push(
+          'BEGIN:VEVENT',
+          `DTSTART;TZID=Europe/London:${dt}`,
+          `DTEND;TZID=Europe/London:${dtEnd}`,
+          `SUMMARY:Tom Cobley Pub Quiz`,
+          `DESCRIPTION:Monthly pub quiz at The Tom Cobley Tavern\\, Spreyton. £2/person\\, max 6 per team. Book: 01647 231314`,
+          `LOCATION:The Tom Cobley Tavern\\, Spreyton\\, Crediton\\, EX17 5AP`,
+          'END:VEVENT'
+        );
+      });
+      lines.push('END:VCALENDAR');
+      const blob = new Blob([lines.join('\r\n')], {type: 'text/calendar'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'tom-cobley-pub-quiz-2026.ics';
+      a.click();
+    }
+
+    renderDates();
     updateCountdown();
-    setInterval(updateCountdown, 60000);
+    setInterval(() => { updateCountdown(); }, 60000);
   </script>
 
 </body>
