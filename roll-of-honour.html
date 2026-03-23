@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roll of Honour — Tom Cobley Pub Quiz</title>
+  <meta name="description" content="The Tom Cobley Pub Quiz Roll of Honour — every winner since the quiz began.">
+  <link rel="canonical" href="https://tomcobleypubquiz.co.uk/roll-of-honour.html">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --wood-dark: #2c1a0e;
+      --wood-mid: #3d2412;
+      --wood-light: #5c3820;
+      --wood-grain: #4a2e18;
+      --gold: #c8960a;
+      --gold-light: #e8b830;
+      --gold-dim: #9a7208;
+      --cream: #f5ead0;
+      --cream-dim: #d4c49a;
+      --brass: #b8860b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--wood-dark);
+      color: var(--cream);
+      font-family: 'Crimson Text', serif;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Wood grain texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        92deg,
+        transparent 0px,
+        rgba(0,0,0,0.04) 1px,
+        transparent 2px,
+        transparent 8px
+      ), repeating-linear-gradient(
+        88deg,
+        transparent 0px,
+        rgba(255,255,255,0.015) 1px,
+        transparent 3px,
+        transparent 20px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    /* Back link */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--gold-dim);
+      text-decoration: none;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--gold-light); }
+
+    /* Board header */
+    .board-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(200,150,10,0.25);
+      position: relative;
+    }
+
+    .board-header::before,
+    .board-header::after {
+      content: '❧';
+      color: var(--gold-dim);
+      font-size: 1.2rem;
+      position: absolute;
+      bottom: -0.7rem;
+      background: var(--wood-dark);
+      padding: 0 0.5rem;
+    }
+    .board-header::before { left: 50%; transform: translateX(-50%); }
+    .board-header::after { display: none; }
+
+    .board-crest {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.85;
+    }
+
+    .board-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 900;
+      color: var(--gold-light);
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      margin-bottom: 0.3rem;
+    }
+
+    .board-subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.25em;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+    }
+
+    /* Brass screws decorative */
+    .board-frame {
+      border: 2px solid rgba(200,150,10,0.3);
+      border-radius: 4px;
+      padding: 2.5rem;
+      position: relative;
+      background: rgba(0,0,0,0.15);
+      box-shadow: inset 0 0 40px rgba(0,0,0,0.3), 0 0 60px rgba(0,0,0,0.4);
+    }
+
+    .screw {
+      position: absolute;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #d4a520, #8a6508);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+    .screw::after {
+      content: '+';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: rgba(0,0,0,0.4);
+      font-weight: bold;
+      line-height: 14px;
+    }
+    .screw.tl { top: 10px; left: 10px; }
+    .screw.tr { top: 10px; right: 10px; }
+    .screw.bl { bottom: 10px; left: 10px; }
+    .screw.br { bottom: 10px; right: 10px; }
+
+    /* Loading state */
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--gold-dim);
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Honour table */
+    .honour-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .honour-table thead tr {
+      border-bottom: 1px solid rgba(200,150,10,0.4);
+    }
+
+    .honour-table th {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      padding: 0 1rem 0.8rem;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .honour-table th:first-child { padding-left: 0; }
+    .honour-table th:last-child { text-align: right; padding-right: 0; }
+
+    .honour-row {
+      border-bottom: 1px solid rgba(200,150,10,0.1);
+      transition: background 0.15s;
+    }
+    .honour-row:last-child { border-bottom: none; }
+    .honour-row:hover { background: rgba(200,150,10,0.05); }
+
+    .honour-row.latest {
+      background: rgba(200,150,10,0.08);
+      border-bottom: 1px solid rgba(200,150,10,0.2);
+    }
+
+    .honour-row td {
+      padding: 0.85rem 1rem;
+      vertical-align: middle;
+    }
+    .honour-row td:first-child { padding-left: 0; }
+    .honour-row td:last-child { text-align: right; padding-right: 0; }
+
+    .td-month {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: var(--gold-dim);
+      white-space: nowrap;
+    }
+
+    .td-winner {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--cream);
+      letter-spacing: 0.02em;
+    }
+
+    .honour-row.latest .td-winner {
+      color: var(--gold-light);
+    }
+
+    .td-runnerup {
+      font-size: 0.92rem;
+      color: var(--cream-dim);
+      font-style: italic;
+    }
+
+    .champion-crown {
+      font-size: 0.85rem;
+      margin-right: 0.3rem;
+    }
+
+    .error-msg {
+      text-align: center;
+      padding: 2rem;
+      color: var(--cream-dim);
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 560px) {
+      .board-frame { padding: 1.5rem 1rem; }
+      .honour-table th, .honour-row td { padding: 0.7rem 0.5rem; }
+      .honour-table th:last-child, .honour-row td:last-child { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrap">
+
+    <a href="index.html" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to the quiz
+    </a>
+
+    <div class="board-header">
+      <div class="board-crest">🏆</div>
+      <h1 class="board-title">Roll of Honour</h1>
+      <p class="board-subtitle">The Tom Cobley Pub Quiz &nbsp;·&nbsp; Spreyton</p>
+    </div>
+
+    <div class="board-frame">
+      <div class="screw tl"></div>
+      <div class="screw tr"></div>
+      <div class="screw bl"></div>
+      <div class="screw br"></div>
+
+      <div id="board-content">
+        <div class="loading">Inscribing the board&hellip;</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2PAaluS5E4WwHIGqR0xEuZGVZVs8vB4DtNAA9RXhNsvM6iATOR2rMQFYku-Wqypro_uiY0OyLDnxb/pub?output=csv';
+
+    async function loadHonourBoard() {
+      const el = document.getElementById('board-content');
+      try {
+        const res = await fetch(SHEET_CSV + '&t=' + Date.now());
+        const text = await res.text();
+        const rows = text.trim().split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g, '').trim()));
+
+        // Skip header row, filter to rows with a winner
+        const entries = rows.slice(1).filter(r => r[1] && r[1].trim() !== '');
+
+        if (!entries.length) {
+          el.innerHTML = '<p class="error-msg">The board awaits its first champions&hellip;</p>';
+          return;
+        }
+
+        // Reverse so most recent is at top
+        const reversed = [...entries].reverse();
+
+        let html = '<table class="honour-table"><thead><tr>';
+        html += '<th>Month</th><th>Winners</th><th>Runners-up</th>';
+        html += '</tr></thead><tbody>';
+
+        reversed.forEach((row, i) => {
+          const month = row[0] || '';
+          const winner = row[1] || '';
+          const runnerup = row[2] || '';
+          const isLatest = i === 0;
+
+          html += `<tr class="honour-row${isLatest ? ' latest' : ''}">`;
+          html += `<td class="td-month">${month}</td>`;
+          html += `<td class="td-winner">${isLatest ? '<span class="champion-crown">👑</span>' : ''}${winner}</td>`;
+          html += `<td class="td-runnerup">${runnerup}</td>`;
+          html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+        el.innerHTML = html;
+
+      } catch(e) {
+        el.innerHTML = '<p class="error-msg">The board could not be reached. Please try again shortly.</p>';
+      }
+    }
+
+    loadHonourBoard();
+  </script>
+</body>
+</html>

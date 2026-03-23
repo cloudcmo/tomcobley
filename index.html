@@ -319,6 +319,72 @@
     .cal-btn:hover { background: rgba(212,144,10,0.15); border-color: var(--gold-light); }
 
     .gold-rule { width: 44px; height: 2px; background: var(--gold); margin-bottom: 1.1rem; }
+
+    /* CHAMPIONS */
+    .champions-section { background: var(--dark-panel); }
+    .champions-section .section-title { color: var(--white); }
+    .champions-section .section-label { color: var(--gold-light); }
+
+    .champions-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    @media (max-width: 680px) {
+      .champions-inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .champion-photo {
+      width: 100%;
+      border-radius: 6px;
+      box-shadow: 6px 10px 36px rgba(0,0,0,0.4);
+      display: block;
+    }
+
+    .champion-month {
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.3rem;
+    }
+
+    .champion-winner {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+    }
+
+    .champion-runnerup {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 0.4rem;
+      font-style: italic;
+    }
+
+    .champion-names { margin: 1rem 0 1.8rem; }
+
+    .honour-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+      letter-spacing: 0.05em;
+      border: 1px solid rgba(212,144,10,0.4);
+      padding: 0.6rem 1.2rem;
+      border-radius: 3px;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .honour-link:hover { background: rgba(212,144,10,0.1); border-color: var(--gold); color: var(--gold-light); }
+
     .poster-section { background: var(--white); }
 
     .poster-inner {
@@ -536,6 +602,31 @@
     </div>
   </section>
 
+  <!-- REIGNING CHAMPIONS -->
+  <section class="champions-section">
+    <div class="container">
+      <div class="champions-inner">
+        <div>
+          <img src="champions-photo.jpg" alt="Reigning champions" class="champion-photo">
+        </div>
+        <div>
+          <div class="gold-rule"></div>
+          <p class="section-label">Reigning Champion</p>
+          <h2 class="section-title" id="champion-title">Loading&hellip;</h2>
+          <div class="champion-names">
+            <p class="champion-month" id="champion-month"></p>
+            <p class="champion-winner" id="champion-winner"></p>
+            <p class="champion-runnerup" id="champion-runnerup"></p>
+          </div>
+          <a href="roll-of-honour.html" class="honour-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            See the full Roll of Honour
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- POSTER + DETAILS -->
   <section class="poster-section">
     <div class="container">
@@ -695,7 +786,27 @@
       }
     }
 
-    updatePoster();
+    // ── REIGNING CHAMPIONS ───────────────────────────────────────────
+    const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2PAaluS5E4WwHIGqR0xEuZGVZVs8vB4DtNAA9RXhNsvM6iATOR2rMQFYku-Wqypro_uiY0OyLDnxb/pub?output=csv';
+
+    async function loadChampions() {
+      try {
+        const res = await fetch(SHEET_CSV + '&t=' + Date.now());
+        const text = await res.text();
+        const rows = text.trim().split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g, '').trim()));
+        const entries = rows.slice(1).filter(r => r[1] && r[1].trim() !== '');
+        if (!entries.length) return;
+        const latest = entries[entries.length - 1];
+        document.getElementById('champion-title').textContent = '🏆 ' + latest[1];
+        document.getElementById('champion-month').textContent = latest[0];
+        document.getElementById('champion-winner').textContent = latest[1];
+        if (latest[2]) document.getElementById('champion-runnerup').textContent = 'Runners-up: ' + latest[2];
+      } catch(e) {
+        document.getElementById('champion-title').textContent = 'Champions';
+      }
+    }
+
+    loadChampions();
     // All quiz dates at 19:15 local time
     const allDates = [
       new Date('2026-03-24T19:15:00'),
