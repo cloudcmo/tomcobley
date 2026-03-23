@@ -541,7 +541,7 @@
     <div class="container">
       <div class="poster-inner">
         <div>
-          <img src="March_poster.png" alt="Tom Cobley Pub Quiz — Tue Mar 24" class="poster-img">
+          <img id="quiz-poster" src="March_poster.png" alt="Tom Cobley Pub Quiz" class="poster-img">
         </div>
         <div>
           <div class="gold-rule"></div>
@@ -673,6 +673,29 @@
   </footer>
 
   <script>
+    // ── POSTER SCHEDULE ──────────────────────────────────────────────
+    // Add new posters here each month. 'from' is when this poster goes live.
+    const posters = [
+      { from: new Date('2026-03-25T00:01:00'), src: 'April_poster.png',  alt: 'Tom Cobley Pub Quiz — Tue Apr 21' },
+      // Add future months below:
+      // { from: new Date('2026-04-22T00:01:00'), src: 'May_poster.png',   alt: 'Tom Cobley Pub Quiz — Tue May 19' },
+    ];
+
+    function updatePoster() {
+      const now = new Date();
+      let activeSrc = 'March_poster.png';
+      let activeAlt = 'Tom Cobley Pub Quiz — Tue Mar 24';
+      for (const p of posters) {
+        if (now >= p.from) { activeSrc = p.src; activeAlt = p.alt; }
+      }
+      const img = document.getElementById('quiz-poster');
+      if (img && img.src !== activeSrc) {
+        img.src = activeSrc;
+        img.alt = activeAlt;
+      }
+    }
+
+    updatePoster();
     // All quiz dates at 19:15 local time
     const allDates = [
       new Date('2026-03-24T19:15:00'),
