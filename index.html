@@ -820,7 +820,8 @@
         const latest = entries[entries.length - 1];
         document.getElementById('champion-title').textContent = '🏆 ' + latest[1];
         document.getElementById('champion-month').textContent = latest[0];
-        if (latest[2]) document.getElementById('champion-runnerup').textContent = 'Runners-up: ' + latest[2];
+        const runners = [latest[2], latest[3]].filter(r => r && r.trim());
+        if (runners.length) document.getElementById('champion-runnerup').textContent = 'Runners-up: ' + runners.join(' & ');
       } catch(e) {
         document.getElementById('champion-title').textContent = 'Champions';
       }

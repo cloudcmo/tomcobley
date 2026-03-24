@@ -278,6 +278,12 @@
   <script>
     const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2PAaluS5E4WwHIGqR0xEuZGVZVs8vB4DtNAA9RXhNsvM6iATOR2rMQFYku-Wqypro_uiY0OyLDnxb/pub?output=csv';
 
+    // Parse a cell that might contain "Team A / Team B" as a fallback
+    function parseTeams(cell) {
+      if (!cell || !cell.trim()) return [];
+      return cell.split('/').map(t => t.trim()).filter(Boolean);
+    }
+
     async function loadLeagueTable() {
       const el = document.getElementById('table-content');
       const note = document.getElementById('table-note');
@@ -295,24 +301,34 @@
         }
 
         // Tally wins and runner-up finishes
+        // Col B = winner, Col C = runner-up 1, Col D = runner-up 2 (tied)
         const wins = {};
         const runnerUps = {};
 
         entries.forEach(row => {
-          const winner = row[1].trim();
-          const runner = row[2] ? row[2].trim() : '';
+          const winner = row[1] ? row[1].trim() : '';
           if (winner) wins[winner] = (wins[winner] || 0) + 1;
-          if (runner) runnerUps[runner] = (runnerUps[runner] || 0) + 1;
+
+          // Col C — may contain a single team or fallback "A / B" slash format
+          const runners1 = parseTeams(row[2] || '');
+          runners1.forEach(t => { runnerUps[t] = (runnerUps[t] || 0) + 1; });
+
+          // Col D — second runner-up when there's a tie
+          const runners2 = parseTeams(row[3] || '');
+          runners2.forEach(t => { runnerUps[t] = (runnerUps[t] || 0) + 1; });
         });
 
-        // Sort by wins desc, then runner-up count desc, then alphabetically
-        const teams = Object.keys(wins).sort((a, b) => {
-          if (wins[b] !== wins[a]) return wins[b] - wins[a];
+        // All teams who have ever won or been runner-up
+        const allTeams = new Set([...Object.keys(wins), ...Object.keys(runnerUps)]);
+
+        // Sort: wins desc → runner-up count desc → alphabetical
+        const teams = [...allTeams].filter(t => wins[t]).sort((a, b) => {
+          if ((wins[b] || 0) !== (wins[a] || 0)) return (wins[b] || 0) - (wins[a] || 0);
           if ((runnerUps[b] || 0) !== (runnerUps[a] || 0)) return (runnerUps[b] || 0) - (runnerUps[a] || 0);
           return a.localeCompare(b);
         });
 
-        const maxWins = wins[teams[0]];
+        const maxWins = wins[teams[0]] || 1;
 
         let html = '<table class="league-table"><thead><tr>';
         html += '<th></th>';
@@ -323,7 +339,7 @@
 
         teams.forEach((team, i) => {
           const pos = i + 1;
-          const w = wins[team];
+          const w = wins[team] || 0;
           const ru = runnerUps[team] || 0;
           const barPct = Math.round((w / maxWins) * 100);
           const posClass = pos <= 3 ? ` pos-${pos}` : '';

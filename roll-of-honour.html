@@ -292,6 +292,11 @@
   <script>
     const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2PAaluS5E4WwHIGqR0xEuZGVZVs8vB4DtNAA9RXhNsvM6iATOR2rMQFYku-Wqypro_uiY0OyLDnxb/pub?output=csv';
 
+    function parseTeams(cell) {
+      if (!cell || !cell.trim()) return [];
+      return cell.split('/').map(t => t.trim()).filter(Boolean);
+    }
+
     async function loadHonourBoard() {
       const el = document.getElementById('board-content');
       try {
@@ -317,13 +322,20 @@
         reversed.forEach((row, i) => {
           const month = row[0] || '';
           const winner = row[1] || '';
-          const runnerup = row[2] || '';
+
+          // Build runners-up string from col C and optional col D
+          const runners = [
+            ...parseTeams(row[2] || ''),
+            ...parseTeams(row[3] || '')
+          ];
+          const runnerupStr = runners.join(' & ');
+
           const isLatest = i === 0;
 
           html += `<tr class="honour-row${isLatest ? ' latest' : ''}">`;
           html += `<td class="td-month">${month}</td>`;
           html += `<td class="td-winner">${isLatest ? '<span class="champion-crown">👑</span>' : ''}${winner}</td>`;
-          html += `<td class="td-runnerup">${runnerup}</td>`;
+          html += `<td class="td-runnerup">${runnerupStr}</td>`;
           html += '</tr>';
         });
 
