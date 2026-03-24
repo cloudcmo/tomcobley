@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questions — Tom Cobley Pub Quiz</title>
+  <meta name="description" content="Download questions, picture rounds and music rounds from past Tom Cobley Pub Quizzes.">
+  <link rel="canonical" href="https://tomcobleypubquiz.co.uk/questions.html">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --ink: #1a2030;
+      --bg: #f0f4ff;
+      --panel: #e4eaf8;
+      --blue: #2a3f8f;
+      --blue-mid: #3a52b0;
+      --gold: #d4900a;
+      --gold-light: #f0a820;
+      --muted: #6070a0;
+      --white: #ffffff;
+      --dark-panel: #1a2444;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Barlow', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    .site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(20,28,56,0.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(212,144,10,0.15);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold-light); }
+
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .burger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: rgba(212,144,10,0.6);
+      border-radius: 2px;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 56px; left: 0; right: 0;
+      background: rgba(20,28,56,0.99);
+      border-bottom: 1px solid rgba(212,144,10,0.15);
+      padding: 1.5rem 2rem;
+      z-index: 99;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(212,144,10,0.1);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover, .mobile-menu a.active { color: var(--gold-light); }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .burger { display: flex; }
+    }
+
+    /* PAGE */
+    .page-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 5rem 2rem 5rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--gold); }
+
+    .page-header {
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .page-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      color: var(--ink);
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin-bottom: 0.6rem;
+    }
+
+    .page-title span { color: var(--blue-mid); }
+
+    .page-intro {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 540px;
+      line-height: 1.6;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 4rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* Month blocks */
+    .month-block {
+      margin-bottom: 2.5rem;
+      background: var(--white);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(26,32,48,0.07);
+    }
+
+    .month-header {
+      background: var(--dark-panel);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .month-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--white);
+    }
+
+    .month-count {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      font-weight: 600;
+    }
+
+    .files-list {
+      padding: 0.5rem 0;
+    }
+
+    .file-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 1.5rem;
+      border-bottom: 1px solid var(--panel);
+      transition: background 0.15s;
+    }
+    .file-row:last-child { border-bottom: none; }
+    .file-row:hover { background: var(--bg); }
+
+    .file-icon {
+      width: 36px; height: 36px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .file-icon.pdf { background: #fde8e8; }
+    .file-icon.mp3 { background: #e8f4e8; }
+    .file-icon.doc { background: #e8eeff; }
+    .file-icon.img { background: #fff8e8; }
+    .file-icon.other { background: var(--panel); }
+
+    .file-info { flex: 1; min-width: 0; }
+
+    .file-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-type {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-top: 0.1rem;
+    }
+
+    .file-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--blue-mid);
+      color: white;
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.45rem 0.9rem;
+      border-radius: 3px;
+      transition: background 0.2s;
+    }
+    .btn-download:hover { background: var(--blue); }
+
+    /* Audio player */
+    .audio-section {
+      padding: 0.8rem 1.5rem 1rem;
+      background: #f0f7f0;
+      border-top: 1px solid #d0e8d0;
+    }
+
+    .audio-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #4a7a4a;
+      margin-bottom: 0.5rem;
+    }
+
+    .custom-player {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .play-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #2d7a2d;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .play-btn:hover { background: #1d5a1d; transform: scale(1.05); }
+    .play-btn svg { margin-left: 2px; }
+
+    .player-track {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .progress-wrap {
+      width: 100%;
+      height: 4px;
+      background: rgba(45,122,45,0.2);
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: #2d7a2d;
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.1s linear;
+      pointer-events: none;
+    }
+
+    .player-time {
+      font-size: 0.68rem;
+      color: #4a7a4a;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .error-msg {
+      text-align: center;
+      padding: 3rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .page-footer {
+      margin-top: 4rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .page-footer a { color: var(--gold); text-decoration: none; }
+    .page-footer a:hover { color: var(--gold-light); }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <a href="/" class="nav-logo">Tom Cobley Pub Quiz</a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#dates">Dates</a></li>
+      <li><a href="/league-table.html">League Table</a></li>
+      <li><a href="/roll-of-honour.html">Roll of Honour</a></li>
+      <li><a href="/questions.html" class="active">Questions</a></li>
+    </ul>
+    <button class="burger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="/">Home</a>
+    <a href="/#dates">Dates</a>
+    <a href="/league-table.html">League Table</a>
+    <a href="/roll-of-honour.html">Roll of Honour</a>
+    <a href="/questions.html" class="active">Questions</a>
+  </div>
+
+  <div class="page-wrap">
+
+    <a href="/" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to the quiz
+    </a>
+
+    <div class="page-header">
+      <p class="section-label">Archive</p>
+      <h1 class="page-title">Past <span>Questions</span></h1>
+      <p class="page-intro">Download questions, picture rounds and music rounds from previous quizzes. Music rounds can be played directly in your browser.</p>
+    </div>
+
+    <div id="questions-content">
+      <div class="loading">Loading questions archive&hellip;</div>
+    </div>
+
+    <div class="page-footer">
+      <p>Built with love and real ale by <a href="https://devonmarketingservices.com" target="_blank" rel="noopener">Devon Marketing Services</a></p>
+    </div>
+
+  </div>
+
+  <script>
+    const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2PAaluS5E4WwHIGqR0xEuZGVZVs8vB4DtNAA9RXhNsvM6iATOR2rMQFYku-Wqypro_uiY0OyLDnxb/pub?gid=1835789215&single=true&output=csv';
+
+    function toggleMenu() {
+      document.getElementById('mobile-menu').classList.toggle('open');
+    }
+
+    function getFileIcon(filename) {
+      const ext = filename.split('.').pop().toLowerCase();
+      if (ext === 'pdf') return { cls: 'pdf', icon: '📄' };
+      if (ext === 'mp3' || ext === 'm4a' || ext === 'wav') return { cls: 'mp3', icon: '🎵' };
+      if (ext === 'doc' || ext === 'docx') return { cls: 'doc', icon: '📝' };
+      if (['jpg','jpeg','png','gif','webp'].includes(ext)) return { cls: 'img', icon: '🖼️' };
+      return { cls: 'other', icon: '📎' };
+    }
+
+    function isAudio(filename) {
+      const ext = filename.split('.').pop().toLowerCase();
+      return ['mp3', 'm4a', 'wav', 'ogg'].includes(ext);
+    }
+
+    function formatTime(secs) {
+      if (isNaN(secs)) return '0:00';
+      const m = Math.floor(secs / 60);
+      const s = Math.floor(secs % 60);
+      return `${m}:${s.toString().padStart(2,'0')}`;
+    }
+
+    function friendlyName(filename) {
+      // Remove extension and replace hyphens/underscores with spaces, capitalise words
+      return filename.replace(/\.[^.]+$/, '')
+        .replace(/[-_]/g, ' ')
+        .replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function friendlyType(filename) {
+      const ext = filename.split('.').pop().toLowerCase();
+      const map = { pdf: 'PDF Document', mp3: 'MP3 Audio', m4a: 'Audio', wav: 'Audio', docx: 'Word Document', doc: 'Word Document', jpg: 'Image', jpeg: 'Image', png: 'Image' };
+      return map[ext] || ext.toUpperCase();
+    }
+
+    let audioPlayers = {};
+
+    function buildPlayer(src, id) {
+      const audio = new Audio(src);
+      audioPlayers[id] = audio;
+
+      const btn = document.getElementById(`play-${id}`);
+      const bar = document.getElementById(`bar-${id}`);
+      const time = document.getElementById(`time-${id}`);
+      const wrap = document.getElementById(`wrap-${id}`);
+
+      btn.addEventListener('click', () => {
+        // Pause any other playing audio
+        Object.entries(audioPlayers).forEach(([otherId, otherAudio]) => {
+          if (otherId !== id && !otherAudio.paused) {
+            otherAudio.pause();
+            document.getElementById(`play-${otherId}`).innerHTML = playIcon();
+          }
+        });
+
+        if (audio.paused) {
+          audio.play();
+          btn.innerHTML = pauseIcon();
+        } else {
+          audio.pause();
+          btn.innerHTML = playIcon();
+        }
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        if (audio.duration) {
+          bar.style.width = (audio.currentTime / audio.duration * 100) + '%';
+          time.textContent = formatTime(audio.currentTime) + ' / ' + formatTime(audio.duration);
+        }
+      });
+
+      audio.addEventListener('ended', () => {
+        btn.innerHTML = playIcon();
+        bar.style.width = '0%';
+      });
+
+      wrap.addEventListener('click', (e) => {
+        if (!audio.duration) return;
+        const rect = wrap.getBoundingClientRect();
+        const pct = (e.clientX - rect.left) / rect.width;
+        audio.currentTime = pct * audio.duration;
+      });
+    }
+
+    function playIcon() {
+      return `<svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>`;
+    }
+
+    function pauseIcon() {
+      return `<svg width="14" height="14" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
+    }
+
+    async function loadQuestions() {
+      const el = document.getElementById('questions-content');
+      try {
+        const res = await fetch(SHEET_CSV + '&t=' + Date.now());
+        const text = await res.text();
+        const rows = text.trim().split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g, '').trim()));
+
+        // Skip header row, filter rows with a month name
+        const entries = rows.slice(1).filter(r => r[0] && r[0].trim() !== '');
+
+        if (!entries.length) {
+          el.innerHTML = '<p class="error-msg">No questions uploaded yet — check back after the next quiz!</p>';
+          return;
+        }
+
+        // Most recent first
+        const reversed = [...entries].reverse();
+
+        let html = '';
+        let playerIds = [];
+
+        reversed.forEach((row, monthIdx) => {
+          const month = row[0].trim();
+          // Files are in columns B onwards
+          const files = row.slice(1).map(f => f.trim()).filter(Boolean);
+
+          if (!files.length) return;
+
+          const folderPath = `questions/${encodeURIComponent(month)}/`;
+
+          html += `<div class="month-block">`;
+          html += `<div class="month-header">
+            <span class="month-name">${month}</span>
+            <span class="month-count">${files.length} file${files.length !== 1 ? 's' : ''}</span>
+          </div>`;
+          html += `<div class="files-list">`;
+
+          files.forEach((filename, fileIdx) => {
+            const { cls, icon } = getFileIcon(filename);
+            const playerId = `${monthIdx}-${fileIdx}`;
+            const filePath = folderPath + filename;
+            const audio = isAudio(filename);
+
+            html += `<div class="file-row">
+              <div class="file-icon ${cls}">${icon}</div>
+              <div class="file-info">
+                <div class="file-name">${friendlyName(filename)}</div>
+                <div class="file-type">${friendlyType(filename)}</div>
+              </div>
+              <div class="file-actions">
+                <a href="${filePath}" download class="btn-download">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download
+                </a>
+              </div>
+            </div>`;
+
+            if (audio) {
+              playerIds.push({ id: playerId, src: filePath });
+              html += `<div class="audio-section">
+                <div class="audio-label">🎵 Play music round</div>
+                <div class="custom-player">
+                  <button class="play-btn" id="play-${playerId}">${playIcon()}</button>
+                  <div class="player-track">
+                    <div class="progress-wrap" id="wrap-${playerId}">
+                      <div class="progress-bar" id="bar-${playerId}"></div>
+                    </div>
+                    <div class="player-time" id="time-${playerId}">0:00</div>
+                  </div>
+                </div>
+              </div>`;
+            }
+          });
+
+          html += `</div></div>`;
+        });
+
+        el.innerHTML = html;
+
+        // Initialise audio players after DOM is updated
+        playerIds.forEach(({ id, src }) => buildPlayer(src, id));
+
+      } catch(e) {
+        el.innerHTML = '<p class="error-msg">Could not load the questions archive. Please try again shortly.</p>';
+      }
+    }
+
+    loadQuestions();
+  </script>
+</body>
+</html>
