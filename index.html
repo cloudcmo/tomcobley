@@ -384,7 +384,22 @@
       transition: background 0.2s, transform 0.15s;
       box-shadow: 0 4px 20px rgba(212,144,10,0.35);
     }
-    .honour-link:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .league-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: transparent;
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+      padding: 1rem 2rem;
+      border-radius: 3px;
+      border: 2px solid rgba(212,144,10,0.5);
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .league-link:hover { background: rgba(212,144,10,0.1); border-color: var(--gold); color: var(--gold-light); transform: translateY(-2px); }
 
     .poster-section { background: var(--white); }
 
@@ -618,10 +633,16 @@
             <p class="champion-month" id="champion-month"></p>
             <p class="champion-runnerup" id="champion-runnerup"></p>
           </div>
-          <a href="/roll-of-honour.html" class="honour-link">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-            See the full Roll of Honour
-          </a>
+          <div style="display:flex; flex-direction:column; gap:0.8rem; align-items:flex-start;">
+            <a href="/roll-of-honour.html" class="honour-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+              See the full Roll of Honour
+            </a>
+            <a href="/league-table.html" class="league-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              See the league table
+            </a>
+          </div>
         </div>
       </div>
     </div>

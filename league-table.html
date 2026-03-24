@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>League Table — Tom Cobley Pub Quiz</title>
+  <meta name="description" content="The Tom Cobley Pub Quiz League Table — teams ranked by number of wins.">
+  <link rel="canonical" href="https://tomcobleypubquiz.co.uk/league-table.html">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --ink: #1a2030;
+      --bg: #f0f4ff;
+      --panel: #e4eaf8;
+      --blue: #2a3f8f;
+      --blue-mid: #3a52b0;
+      --gold: #d4900a;
+      --gold-light: #f0a820;
+      --muted: #6070a0;
+      --white: #ffffff;
+      --dark-panel: #1a2444;
+      --silver: #a8b8c8;
+      --bronze: #c87840;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark-panel);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      min-height: 100vh;
+    }
+
+    .page-wrap {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--gold-light); }
+
+    /* Header */
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .header-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+
+    .page-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      color: var(--white);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .page-title span { color: var(--gold-light); }
+
+    .page-subtitle {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 4rem;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* League table */
+    .league-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .league-table thead tr {
+      border-bottom: 2px solid rgba(255,255,255,0.1);
+    }
+
+    .league-table th {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 1rem 0.9rem;
+      text-align: left;
+    }
+
+    .league-table th.num { text-align: center; }
+    .league-table th:first-child { padding-left: 0; width: 48px; }
+    .league-table th:last-child { text-align: right; padding-right: 0; }
+
+    .league-row {
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background 0.15s;
+    }
+    .league-row:last-child { border-bottom: none; }
+    .league-row:hover { background: rgba(255,255,255,0.03); }
+
+    .league-row td {
+      padding: 1rem;
+      vertical-align: middle;
+    }
+    .league-row td:first-child { padding-left: 0; }
+    .league-row td:last-child { text-align: right; padding-right: 0; }
+
+    /* Position badge */
+    .pos-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 1rem;
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.4);
+    }
+
+    .pos-1 { background: var(--gold); color: var(--dark-panel); }
+    .pos-2 { background: var(--silver); color: var(--dark-panel); }
+    .pos-3 { background: var(--bronze); color: var(--dark-panel); }
+
+    .td-pos { width: 48px; }
+
+    .td-team {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: var(--white);
+    }
+
+    .league-row:nth-child(1) .td-team { color: var(--gold-light); }
+
+    .td-wins {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gold-light);
+      text-align: right;
+      line-height: 1;
+    }
+
+    .wins-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      line-height: 1;
+      margin-top: 0.1rem;
+    }
+
+    /* Win bars */
+    .win-bar-wrap {
+      width: 100%;
+      max-width: 200px;
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 0.4rem;
+    }
+
+    .win-bar {
+      height: 100%;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: width 0.8s ease;
+    }
+
+    .league-row:nth-child(1) .win-bar { background: var(--gold-light); }
+    .league-row:nth-child(2) .win-bar { background: var(--silver); }
+    .league-row:nth-child(3) .win-bar { background: var(--bronze); }
+
+    .td-runnerup-count {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+    }
+
+    .error-msg {
+      text-align: center;
+      padding: 3rem;
+      color: rgba(255,255,255,0.3);
+      font-style: italic;
+    }
+
+    /* Footer note */
+    .table-note {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.05em;
+    }
+
+    .page-footer {
+      margin-top: 4rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.2);
+    }
+    .page-footer a { color: rgba(212,144,10,0.5); text-decoration: none; }
+    .page-footer a:hover { color: var(--gold-light); }
+
+    @media (max-width: 500px) {
+      .td-runnerup-count { display: none; }
+      .league-table th.runners { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrap">
+
+    <a href="/" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to the quiz
+    </a>
+
+    <div class="page-header">
+      <div class="header-icon">🏅</div>
+      <h1 class="page-title">League <span>Table</span></h1>
+      <p class="page-subtitle">Tom Cobley Pub Quiz &nbsp;·&nbsp; Spreyton &nbsp;·&nbsp; All-time rankings</p>
+    </div>
+
+    <div id="table-content">
+      <div class="loading">Loading standings&hellip;</div>
+    </div>
+
+    <p class="table-note" id="table-note"></p>
+
+    <div class="page-footer">
+      <p>Built with love and real ale by <a href="https://devonmarketingservices.com" target="_blank" rel="noopener">Devon Marketing Services</a></p>
+    </div>
+
+  </div>
+
+  <script>
+    const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2PAaluS5E4WwHIGqR0xEuZGVZVs8vB4DtNAA9RXhNsvM6iATOR2rMQFYku-Wqypro_uiY0OyLDnxb/pub?output=csv';
+
+    async function loadLeagueTable() {
+      const el = document.getElementById('table-content');
+      const note = document.getElementById('table-note');
+      try {
+        const res = await fetch(SHEET_CSV + '&t=' + Date.now());
+        const text = await res.text();
+        const rows = text.trim().split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g, '').trim()));
+
+        // Skip header, filter to rows with a winner
+        const entries = rows.slice(1).filter(r => r[1] && r[1].trim() !== '');
+
+        if (!entries.length) {
+          el.innerHTML = '<p class="error-msg">No results recorded yet — check back after the next quiz!</p>';
+          return;
+        }
+
+        // Tally wins and runner-up finishes
+        const wins = {};
+        const runnerUps = {};
+
+        entries.forEach(row => {
+          const winner = row[1].trim();
+          const runner = row[2] ? row[2].trim() : '';
+          if (winner) wins[winner] = (wins[winner] || 0) + 1;
+          if (runner) runnerUps[runner] = (runnerUps[runner] || 0) + 1;
+        });
+
+        // Sort by wins desc, then runner-up count desc, then alphabetically
+        const teams = Object.keys(wins).sort((a, b) => {
+          if (wins[b] !== wins[a]) return wins[b] - wins[a];
+          if ((runnerUps[b] || 0) !== (runnerUps[a] || 0)) return (runnerUps[b] || 0) - (runnerUps[a] || 0);
+          return a.localeCompare(b);
+        });
+
+        const maxWins = wins[teams[0]];
+
+        let html = '<table class="league-table"><thead><tr>';
+        html += '<th></th>';
+        html += '<th>Team</th>';
+        html += '<th class="runners" style="text-align:center">Runners-up</th>';
+        html += '<th style="text-align:right">Wins</th>';
+        html += '</tr></thead><tbody>';
+
+        teams.forEach((team, i) => {
+          const pos = i + 1;
+          const w = wins[team];
+          const ru = runnerUps[team] || 0;
+          const barPct = Math.round((w / maxWins) * 100);
+          const posClass = pos <= 3 ? ` pos-${pos}` : '';
+
+          html += `<tr class="league-row">`;
+          html += `<td class="td-pos"><div class="pos-badge${posClass}">${pos}</div></td>`;
+          html += `<td class="td-team">
+            ${team}
+            <div class="win-bar-wrap"><div class="win-bar" style="width:${barPct}%"></div></div>
+          </td>`;
+          html += `<td class="td-runnerup-count">${ru > 0 ? ru : '—'}</td>`;
+          html += `<td>
+            <div class="td-wins">${w}<span class="wins-label">${w === 1 ? 'win' : 'wins'}</span></div>
+          </td>`;
+          html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+        el.innerHTML = html;
+
+        note.textContent = `Based on ${entries.length} recorded quiz${entries.length === 1 ? '' : 'zes'}. Ties broken by runners-up count.`;
+
+      } catch(e) {
+        el.innerHTML = '<p class="error-msg">The standings could not be loaded. Please try again shortly.</p>';
+      }
+    }
+
+    loadLeagueTable();
+  </script>
+</body>
+</html>
