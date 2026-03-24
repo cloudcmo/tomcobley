@@ -68,6 +68,120 @@
     }
 
     /* Back link */
+    /* NAV */
+    .site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(28,16,6,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(200,150,10,0.15);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(245,234,208,0.55);
+      text-decoration: none;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold-light); }
+
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .burger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--gold-dim);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 56px; left: 0; right: 0;
+      background: rgba(28,16,6,0.98);
+      border-bottom: 1px solid rgba(200,150,10,0.15);
+      padding: 1.5rem 2rem;
+      z-index: 99;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(245,234,208,0.6);
+      text-decoration: none;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(200,150,10,0.1);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover, .mobile-menu a.active { color: var(--gold-light); }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .burger { display: flex; }
+    }
+
+    .page-wrap { padding-top: 5rem; }
+
+    /* Cross-link between honour/league pages */
+    .page-crosslink {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .page-crosslink a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(200,150,10,0.3);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .page-crosslink a:hover { color: var(--gold-light); border-color: var(--gold-light); }
+
     .back-link {
       display: inline-flex;
       align-items: center;
@@ -263,6 +377,26 @@
   </style>
 </head>
 <body>
+<nav class="site-nav">
+    <a href="/" class="nav-logo">Tom Cobley Pub Quiz</a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#dates">Dates</a></li>
+      <li><a href="/league-table.html">League Table</a></li>
+      <li><a href="/roll-of-honour.html" class="active">Roll of Honour</a></li>
+    </ul>
+    <button class="burger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="/">Home</a>
+    <a href="/#dates">Dates</a>
+    <a href="/league-table.html">League Table</a>
+    <a href="/roll-of-honour.html" class="active">Roll of Honour</a>
+  </div>
+
   <div class="page-wrap">
 
     <a href="/" class="back-link">
@@ -274,6 +408,10 @@
       <div class="board-crest">🏆</div>
       <h1 class="board-title">Roll of Honour</h1>
       <p class="board-subtitle">The Tom Cobley Pub Quiz &nbsp;·&nbsp; Spreyton</p>
+    </div>
+
+    <div class="page-crosslink">
+      <a href="/league-table.html">🏅 See the League Table of all-time winners →</a>
     </div>
 
     <div class="board-frame">
@@ -290,6 +428,10 @@
   </div>
 
   <script>
+    function toggleMenu() {
+      document.getElementById('mobile-menu').classList.toggle('open');
+    }
+
     const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2PAaluS5E4WwHIGqR0xEuZGVZVs8vB4DtNAA9RXhNsvM6iATOR2rMQFYku-Wqypro_uiY0OyLDnxb/pub?output=csv';
 
     function parseTeams(cell) {
