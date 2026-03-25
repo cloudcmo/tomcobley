@@ -942,18 +942,17 @@
         const text = await res.text();
         const rows = text.trim().split('\n')
           .map(r => r.split(',').map(c => c.replace(/^"|"$/g, '').trim()))
-          .slice(1) // skip header
-          .filter(r => r[0] && r[1]); // need both date and filename
+          .slice(1)
+          .filter(r => r[0] && r[1] && r[1].trim() !== '');
 
         const now = new Date();
         let activeSrc = DEFAULT_POSTER;
 
-        // Parse each row's date and find the most recent one that has passed
         rows.forEach(row => {
           const parts = row[0].split('/');
           let goLive;
           if (parts.length === 3) {
-            // Handle DD/MM/YYYY or MM/DD/YYYY — try both, trust the one that makes sense
+            // DD/MM/YYYY
             goLive = new Date(`${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}T00:01:00`);
           } else {
             goLive = new Date(row[0]);
@@ -969,7 +968,6 @@
           img.alt = 'Tom Cobley Pub Quiz';
         }
       } catch(e) {
-        // Silently fall back to default poster if sheet unavailable
         const img = document.getElementById('quiz-poster');
         if (img) img.src = DEFAULT_POSTER;
       }
