@@ -932,24 +932,46 @@
     }
 
     // ── POSTER SCHEDULE ──────────────────────────────────────────────
-    // Add new posters here each month. 'from' is when this poster goes live.
-    const posters = [
-      { from: new Date('2026-03-25T00:01:00'), src: 'April_poster.png',  alt: 'Tom Cobley Pub Quiz — Tue Apr 21' },
-      // Add future months below:
-      // { from: new Date('2026-04-22T00:01:00'), src: 'May_poster.png',   alt: 'Tom Cobley Pub Quiz — Tue May 19' },
-    ];
+    // Driven by the Posters tab in Google Sheets — no code changes needed
+    const POSTER_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2PAaluS5E4WwHIGqR0xEuZGVZVs8vB4DtNAA9RXhNsvM6iATOR2rMQFYku-Wqypro_uiY0OyLDnxb/pub?gid=2142481181&single=true&output=csv';
+    const DEFAULT_POSTER = 'March_poster.png';
 
-    function updatePoster() {
-      const now = new Date();
-      let activeSrc = 'March_poster.png';
-      let activeAlt = 'Tom Cobley Pub Quiz — Tue Mar 24';
-      for (const p of posters) {
-        if (now >= p.from) { activeSrc = p.src; activeAlt = p.alt; }
-      }
-      const img = document.getElementById('quiz-poster');
-      if (img && img.src !== activeSrc) {
-        img.src = activeSrc;
-        img.alt = activeAlt;
+    async function updatePoster() {
+      try {
+        const res = await fetch(POSTER_CSV + '&t=' + Date.now());
+        const text = await res.text();
+        const rows = text.trim().split('\n')
+          .map(r => r.split(',').map(c => c.replace(/^"|"$/g, '').trim()))
+          .slice(1) // skip header
+          .filter(r => r[0] && r[1]); // need both date and filename
+
+        const now = new Date();
+        let activeSrc = DEFAULT_POSTER;
+
+        // Parse each row's date and find the most recent one that has passed
+        rows.forEach(row => {
+          const parts = row[0].split('/');
+          let goLive;
+          if (parts.length === 3) {
+            // Handle DD/MM/YYYY or MM/DD/YYYY — try both, trust the one that makes sense
+            goLive = new Date(`${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}T00:01:00`);
+          } else {
+            goLive = new Date(row[0]);
+          }
+          if (!isNaN(goLive) && now >= goLive) {
+            activeSrc = row[1].trim();
+          }
+        });
+
+        const img = document.getElementById('quiz-poster');
+        if (img) {
+          img.src = activeSrc;
+          img.alt = 'Tom Cobley Pub Quiz';
+        }
+      } catch(e) {
+        // Silently fall back to default poster if sheet unavailable
+        const img = document.getElementById('quiz-poster');
+        if (img) img.src = DEFAULT_POSTER;
       }
     }
 
