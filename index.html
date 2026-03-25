@@ -936,10 +936,39 @@
     const POSTER_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2PAaluS5E4WwHIGqR0xEuZGVZVs8vB4DtNAA9RXhNsvM6iATOR2rMQFYku-Wqypro_uiY0OyLDnxb/pub?gid=2142481181&single=true&output=csv';
     const DEFAULT_POSTER = 'March_poster.png';
 
+    function parseSheetDate(str) {
+      if (!str) return null;
+      str = str.trim();
+
+      // Try DD/MM/YYYY
+      let m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      if (m) return new Date(`${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}T00:01:00`);
+
+      // Try MM/DD/YYYY (US format Google sometimes exports)
+      m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      if (m) return new Date(`${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}T00:01:00`);
+
+      // Try YYYY-MM-DD
+      m = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (m) return new Date(`${str.substring(0,10)}T00:01:00`);
+
+      // Try plain number (Google Sheets serial date: days since 30/12/1899)
+      if (/^\d+$/.test(str)) {
+        const serial = parseInt(str);
+        const d = new Date(Date.UTC(1899, 11, 30) + serial * 86400000);
+        return d;
+      }
+
+      // Fallback: let JS try
+      const d = new Date(str);
+      return isNaN(d) ? null : d;
+    }
+
     async function updatePoster() {
       try {
         const res = await fetch(POSTER_CSV + '&t=' + Date.now());
         const text = await res.text();
+
         const rows = text.trim().split('\n')
           .map(r => r.split(',').map(c => c.replace(/^"|"$/g, '').trim()))
           .slice(1)
@@ -949,15 +978,8 @@
         let activeSrc = DEFAULT_POSTER;
 
         rows.forEach(row => {
-          const parts = row[0].split('/');
-          let goLive;
-          if (parts.length === 3) {
-            // DD/MM/YYYY
-            goLive = new Date(`${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}T00:01:00`);
-          } else {
-            goLive = new Date(row[0]);
-          }
-          if (!isNaN(goLive) && now >= goLive) {
+          const goLive = parseSheetDate(row[0]);
+          if (goLive && now >= goLive) {
             activeSrc = row[1].trim();
           }
         });
