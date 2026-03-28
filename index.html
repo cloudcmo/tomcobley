@@ -519,6 +519,32 @@
     .pqd-section .section-title { color: var(--white); }
     .pqd-section p { color: rgba(255,255,255,0.7); font-size: 1rem; max-width: 540px; margin: 0 auto 2rem; }
 
+    .pqd-preview-link {
+      display: inline-block;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+    .pqd-preview-link:hover { transform: translateY(-3px); }
+
+    .pqd-preview-img {
+      display: block;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 12px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+      margin: 0 auto;
+    }
+
+    .pqd-preview-cta {
+      display: block;
+      margin-top: 1rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+
     .btn {
       display: inline-block;
       background: var(--gold);
@@ -880,8 +906,11 @@
     <div class="container pqd-inner">
       <p class="section-label">Love pub quizzes?</p>
       <h2 class="section-title">Try Pub Quiz Daily</h2>
-      <p>A new question every day — perfect over breakfast or any time the mood strikes. Full of questions probably asked at the Tom Cobley three years ago... but you'll have forgotten them by now.</p>
-      <a href="https://pubquizdaily.com" target="_blank" rel="noopener" class="btn">Visit pubquizdaily.com</a>
+      <p>Fresh questions every single day — perfect over breakfast, on your lunch break, or any time the mood strikes. Multiple choice, multiple questions, completely free.</p>
+      <a href="https://pubquizdaily.com" target="_blank" rel="noopener" class="pqd-preview-link">
+        <img src="pubquizdaily-preview.png" alt="Try a question on Pub Quiz Daily" class="pqd-preview-img">
+        <span class="pqd-preview-cta">Play today's questions at pubquizdaily.com →</span>
+      </a>
     </div>
   </section>
 
